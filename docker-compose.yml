@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  laravel:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: laravel-image
+    container_name: laravel-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/chat-app:/var/www
+      - ./backend/chat-app/vendor:/var/www/vendor
+    environment:
+      - WATCHPACK_POLLING=true
+
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: react-image
+    container_name: react-container
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/chat-app:/chat-app
+      - /chat-app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
